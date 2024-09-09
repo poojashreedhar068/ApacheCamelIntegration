@@ -16,10 +16,11 @@ public class ApacheCamelIntegrationController {
     RabbitTemplate rabbitTemplate;
 
     @GetMapping("/sendmessage")
-    public ResponseEntity<Object> getMessage(@RequestBody ApacheCamelEntity apacheCamelEntity) {
-        log.info("getAllPoisWithinRadius(-) Started");
-        rabbitTemplate.convertAndSend("","WireTapeReceiver",apacheCamelEntity);
-        return ResponseEntity.accepted().build();
+    public ResponseEntity<Object> sendMessage(@RequestBody String message) {
+        log.info("Sending the message to queue :: "+ message);
+        rabbitTemplate.convertAndSend("CamelReceiverQueue", message);
+        return ResponseEntity.ok().build();
+
     }
 
 }

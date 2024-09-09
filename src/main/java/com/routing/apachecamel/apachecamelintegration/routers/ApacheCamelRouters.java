@@ -1,6 +1,7 @@
 package com.routing.apachecamel.apachecamelintegration.routers;
 
 import com.routing.apachecamel.apachecamelintegration.sender.ApacheCamelSender;
+import com.routing.apachecamel.apachecamelintegration.service.ApacheCamelProcessor;
 import org.apache.camel.ExchangePattern;
 import org.apache.camel.Processor;
 import org.apache.camel.RoutesBuilder;
@@ -14,6 +15,9 @@ public class ApacheCamelRouters extends RouteBuilder {
     @Autowired
     ApacheCamelSender sender;
 
+    @Autowired
+    ApacheCamelProcessor apacheCamelProcessor;
+
 
     @Override
     public void configure() throws Exception {
@@ -26,6 +30,7 @@ public class ApacheCamelRouters extends RouteBuilder {
         from("spring-rabbitmq:CamelReceiverQueue?routingKey=WireTapeReceiver")
                 .log("Sending message to other Queue")
                 .process(sender::process)
+                .process(apacheCamelProcessor::process)
                 .log("Sent Message to Sender Queue");
 
 

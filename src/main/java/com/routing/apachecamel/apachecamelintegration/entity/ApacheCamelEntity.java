@@ -11,14 +11,9 @@ import lombok.*;
 @Table(name="Apache_Camel")
 public class ApacheCamelEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String name;
-
-    private String queue;
-
-    private int number;
-
+    private String message;
 
 }
