@@ -20,7 +20,4 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
-camel:
-  component:
-   spring-rabbitmq.auto-declare: true
 
