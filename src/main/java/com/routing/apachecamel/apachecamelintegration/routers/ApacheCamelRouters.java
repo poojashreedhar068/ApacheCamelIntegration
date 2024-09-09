@@ -24,14 +24,20 @@ public class ApacheCamelRouters extends RouteBuilder {
 
         from("direct:start")
                 .log("Starting the route")
-                .to(ExchangePattern.InOut, "spring-rabbitmq:CamelReceiverQueue?routingKey=WireTapeReceiver")
-                .log("Processed the routing");
+                .wireTap("direct:queueProcessor")
+                .to("direct:databaseProcess")
+                       .log("Done with Processing");
 
-        from("spring-rabbitmq:CamelReceiverQueue?routingKey=WireTapeReceiver")
-                .log("Sending message to other Queue")
+        from("direct:queueProcessor")
+                .delay(1000)
+                .log("Sending message to sender Queue")
                 .process(sender::process)
-                .process(apacheCamelProcessor::process)
                 .log("Sent Message to Sender Queue");
+
+        from("direct:databaseProcess")
+                .log("Storing the message to DB")
+                .process(apacheCamelProcessor::process)
+                .log("Message is successfully stored to DB");
 
 
     }

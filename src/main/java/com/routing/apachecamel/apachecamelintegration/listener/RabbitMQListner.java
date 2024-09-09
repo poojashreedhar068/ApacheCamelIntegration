@@ -17,6 +17,6 @@ public class RabbitMQListner {
     public void listner(String object){
         log.info("Received message from Queue");
         log.info(object);
-        producerTemplate.sendBody("spring-rabbitmq:CamelReceiverQueue?routingKey=WireTapeReceiver", object);
+        producerTemplate.sendBody("direct:start", object);
     }
 }

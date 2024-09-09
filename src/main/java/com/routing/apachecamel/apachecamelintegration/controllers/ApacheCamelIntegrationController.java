@@ -15,7 +15,7 @@ public class ApacheCamelIntegrationController {
     @Autowired
     RabbitTemplate rabbitTemplate;
 
-    @GetMapping("/sendmessage")
+    @PostMapping("/sendmessage")
     public ResponseEntity<Object> sendMessage(@RequestBody String message) {
         log.info("Sending the message to queue :: "+ message);
         rabbitTemplate.convertAndSend("CamelReceiverQueue", message);
